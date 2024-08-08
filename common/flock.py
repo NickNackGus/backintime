@@ -88,7 +88,10 @@ class _FlockContext:
 
         # Try user specific file lock
         # e.g. /run/user/<UID>
-        self._file_path = Path(os.environ['XDG_RUNTIME_DIR']) / filename
+        self._file_path = Path(
+            os.environ.get('XDG_RUNTIME_DIR',
+                           f'/run/user/{os.getuid()}')
+        ) / filename
 
         if self._can_use_file(self._file_path):
             return
@@ -96,7 +99,7 @@ class _FlockContext:
         # At last, try users cache dir.
         self._file_path = Path(
             os.environ.get('XDG_CACHE_HOME',
-                           Path.home() / 'cache')
+                           Path.home() / '.cache')
         ) / filename
 
         if self._can_use_file(self._file_path):
@@ -146,7 +149,7 @@ class _FlockContext:
         # Workaround for #1751. Remove after refactoring Snapshots.backup()
         # See __init__() for details
         if self._file_path is None:
-            return
+            return None
 
         self._log('Set')
 
