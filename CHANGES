@@ -1,6 +1,6 @@
 Back In Time
 Version 1.5.3-dev (development of upcoming release)
-* Fix: Correct global flock fallbacks (#1834)
+* Fix: Correct global flock fallbacks (#1834) (Timothy Southwick)
 * ...
 
 Version 1.5.2 (2024-08-06)

@@ -73,7 +73,7 @@ class _FlockContext:
 
         # Workaround for #1751. Remove after refactoring Snapshots.backup()
         if disable:
-            return
+            return None
 
         folder = Path(Path.cwd().root) / 'run' / 'lock'
 
@@ -84,7 +84,7 @@ class _FlockContext:
         self._file_path = folder / filename
 
         if self._can_use_file(self._file_path):
-            return
+            return None
 
         # Try user specific file lock
         # e.g. /run/user/<UID>
@@ -94,7 +94,7 @@ class _FlockContext:
         ) / filename
 
         if self._can_use_file(self._file_path):
-            return
+            return None
 
         # At last, try users cache dir.
         self._file_path = Path(
@@ -103,7 +103,7 @@ class _FlockContext:
         ) / filename
 
         if self._can_use_file(self._file_path):
-            return
+            return None
 
         raise RuntimeError(
             f'Can not establish global flock file {self._file_path}')
@@ -165,7 +165,7 @@ class _FlockContext:
         # Workaround for #1751. Remove after refactoring Snapshots.backup()
         # See __init__() for details
         if self._flock_handle is None:
-            return
+            return None
 
         self._log('Release')
         fcntl.fcntl(self._flock_handle, fcntl.LOCK_UN)
